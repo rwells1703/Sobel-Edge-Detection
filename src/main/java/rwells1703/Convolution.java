@@ -4,9 +4,9 @@ import org.openimaj.image.FImage;
 import org.openimaj.image.processor.SinglebandImageProcessor;
 
 public class Convolution implements SinglebandImageProcessor<Float, FImage> {
-    private float[][] kernel;
-    private int templateWidth;
-    private int templateHeight;
+    private final float[][] kernel;
+    private final int templateWidth;
+    private final int templateHeight;
 
     public Convolution(float[][] kernel) {
         //note that like the image pixels kernel is indexed by [row][column]
