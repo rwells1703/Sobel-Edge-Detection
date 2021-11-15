@@ -12,10 +12,13 @@ import org.openimaj.video.capture.VideoCaptureException;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class App {
     public static void main( String[] args ) throws IOException {
-        videoSobel();
+        imageSobel();
     }
 
     private static void videoSobel() throws VideoCaptureException {
@@ -47,9 +50,21 @@ public class App {
     }
 
     private static void imageSobel() throws IOException {
-        MBFImage image = ImageUtilities.readMBF(new File("images\\fish.bmp"));
+        String inputFileFolder = "images\\";
+        String inputFile = "happy2.jpg";
+        MBFImage image = ImageUtilities.readMBF(new File(inputFileFolder + inputFile));
+
         FImage greyscaleImage = Transforms.calculateIntensity(image);
 
-        DisplayUtilities.display(greyscaleImage.process(new Sobel()).multiplyInplace(4f));
+        FImage sobelImage = greyscaleImage.process(new Sobel()).multiplyInplace(4f);
+
+        // Save the image to a file
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        Date date = new Date();
+        String dateString = dateFormat.format(date);
+
+        ImageUtilities.write(sobelImage, new File(inputFileFolder + "output\\" + dateString + "_" + inputFile));
+
+        //DisplayUtilities.display(sobelImage);
     }
 }
